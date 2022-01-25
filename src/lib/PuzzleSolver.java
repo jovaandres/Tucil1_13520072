@@ -5,7 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Matrix {
+public class PuzzleSolver {
+    public boolean fileExist = true;
     final int maxRow = 50;
     final int maxCol = 50;
     final int maxWord = 50;
@@ -45,6 +46,7 @@ public class Matrix {
 
             reader.close();
         } catch (IOException e) {
+            this.fileExist = false;
             System.out.println("Error occurred, " + e.getMessage());
         }
     }
@@ -73,7 +75,7 @@ public class Matrix {
     public void displayStat() {
         System.out.println("\nStatistics");
         System.out.println("Total letter comparison: " + this.comparison);
-        System.out.println("Total time elapsed: " + this.time / 1000000 + " ms\n");
+        System.out.println("Brute force time: " + this.time / 1000000 + " ms\n");
     }
 
     public void checkUp(int num, int row, int col) {
