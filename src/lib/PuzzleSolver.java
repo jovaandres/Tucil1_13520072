@@ -61,6 +61,19 @@ public class PuzzleSolver {
         }
     }
 
+    public void displayPuzzle()
+    {
+        System.out.println();
+        System.out.println("PUZZLE");
+        int i, j;
+        for (i = 0; i < this.nRow; i++) {
+            for (j = 0; j < this.nCol; j++) {
+                System.out.print(this.Matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public void displaySolutions()
     {
         int i, j;

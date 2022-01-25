@@ -14,6 +14,7 @@ public class Main {
         puzzleSolver.readMatrix(filename);
         if (puzzleSolver.fileExist) {
             puzzleSolver.resetSolution();
+            puzzleSolver.displayPuzzle();
             puzzleSolver.solve();
             puzzleSolver.displayStat();
         }
