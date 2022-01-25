@@ -80,12 +80,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (row + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row - i][col], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -109,12 +110,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (this.nRow - row + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[i + row][col], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -138,12 +140,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (this.nCol - col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row][col + i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -167,12 +170,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row][col - i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -196,12 +200,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row - i][col + i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -225,12 +230,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row - i][col - i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -254,12 +260,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (this.nRow - row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row + i][col + i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -283,12 +290,13 @@ public class Matrix {
         if (!this.found) {
             String currentWord = this.Words[num];
             boolean match = true;
-            int i = 0;
+            int i = 1;
             long start, stop;
             start = System.nanoTime();
             if (this.nRow - row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
+                this.Solution[row][col] = this.Matrix[row][col];
                 while (match && i < currentWord.length()) {
-                    comparison++;
+                    this.comparison++;
                     if (!Objects.equals(this.Matrix[row + i][col - i], currentWord.substring(i, i + 1))) {
                         match = false;
                     } else {
@@ -318,8 +326,11 @@ public class Matrix {
             this.found = false;
             resetSolution();
 
-            for (nRow = 0; nRow < this.nRow; nRow++) {
-                for (nCol = 0; nCol < this.nCol; nCol++) {
+            nRow = 0;
+            nCol = 0;
+            while (nRow < this.nRow && !this.found) {
+                while (nCol < this.nCol && !this.found) {
+                    this.comparison++;
                     if (Objects.equals(this.Matrix[nRow][nCol], String.valueOf(currentChar))) {
                         checkUp(i, nRow, nCol);
                         checkDown(i, nRow, nCol);
@@ -330,7 +341,10 @@ public class Matrix {
                         checkDownRight(i, nRow, nCol);
                         checkDownLeft(i, nRow, nCol);
                     }
+                    nCol++;
                 }
+                nCol = 0;
+                nRow++;
             }
 
             if (!this.found) {
