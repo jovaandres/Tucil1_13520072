@@ -11,5 +11,6 @@ public class Main {
         matrix.readMatrix("a.txt");
         matrix.resetSolution();
         matrix.solve();
+        matrix.displayStat();
     }
 }

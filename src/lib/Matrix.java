@@ -9,7 +9,10 @@ public class Matrix {
     final int maxRow = 50;
     final int maxCol = 50;
     final int maxWord = 50;
+    public int comparison = 0;
     public int nRow, nCol, nWord;
+    public double time = 0;
+    public boolean found = false;
     public String[][] Matrix = new String[maxRow][maxCol];
     public String[][] Solution = new String[maxRow][maxCol];
     public String[] Words = new String[maxWord];
@@ -58,8 +61,6 @@ public class Matrix {
 
     public void displaySolutions()
     {
-        System.out.println();
-        System.out.println("Solution");
         int i, j;
         for (i = 0; i < this.nRow; i++) {
             for (j = 0; j < this.nCol; j++) {
@@ -69,178 +70,240 @@ public class Matrix {
         }
     }
 
-    public void checkUp(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (row + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row - i][col], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row - i][col] = this.Matrix[row - i][col];
-                    i += 1;
-                }
-            }
+    public void displayStat() {
+        System.out.println("\nStatistics");
+        System.out.println("Total letter comparison: " + this.comparison);
+        System.out.println("Total time elapsed: " + this.time / 1000000 + " ms\n");
+    }
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+    public void checkUp(int num, int row, int col) {
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (row + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row - i][col], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row - i][col] = this.Matrix[row - i][col];
+                        i += 1;
+                    }
+                }
+                stop = System.nanoTime();
+
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkDown(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (this.nRow - row + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[i + row][col], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[i + row][col] = this.Matrix[i + row][col];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (this.nRow - row + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[i + row][col], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[i + row][col] = this.Matrix[i + row][col];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkRight(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (this.nCol - col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row][col + i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row][col + i] = this.Matrix[row][col + i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (this.nCol - col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row][col + i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row][col + i] = this.Matrix[row][col + i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkLeft(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row][col - i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row][col - i] = this.Matrix[row][col - i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row][col - i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row][col - i] = this.Matrix[row][col - i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkUpRight(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row - i][col + i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row - i][col + i] = this.Matrix[row - i][col + i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row - i][col + i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row - i][col + i] = this.Matrix[row - i][col + i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkUpLeft(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row - i][col - i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row - i][col - i] = this.Matrix[row - i][col - i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row - i][col - i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row - i][col - i] = this.Matrix[row - i][col - i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkDownRight(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (this.nRow - row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row + i][col + i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row + i][col + i] = this.Matrix[row + i][col + i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (this.nRow - row + 1 >= currentWord.length() && this.nCol - col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row + i][col + i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row + i][col + i] = this.Matrix[row + i][col + i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
 
     public void checkDownLeft(int num, int row, int col) {
-        String currentWord = this.Words[num];
-        boolean match = true;
-        int i = 0;
-        if (this.nRow - row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
-            while (match && i < currentWord.length()) {
-                if (!Objects.equals(this.Matrix[row + i][col - i], currentWord.substring(i, i + 1))) {
-                    match = false;
-                } else {
-                    this.Solution[row + i][col - i] = this.Matrix[row + i][col - i];
-                    i += 1;
+        if (!this.found) {
+            String currentWord = this.Words[num];
+            boolean match = true;
+            int i = 0;
+            long start, stop;
+            start = System.nanoTime();
+            if (this.nRow - row + 1 >= currentWord.length() && col + 1 >= currentWord.length()) {
+                while (match && i < currentWord.length()) {
+                    comparison++;
+                    if (!Objects.equals(this.Matrix[row + i][col - i], currentWord.substring(i, i + 1))) {
+                        match = false;
+                    } else {
+                        this.Solution[row + i][col - i] = this.Matrix[row + i][col - i];
+                        i += 1;
+                    }
                 }
-            }
+                stop = System.nanoTime();
 
-            if (match) {
-                displaySolutions();
-            } else {
-                resetSolution();
+                this.time += stop - start;
+                if (match) {
+                    this.found = true;
+                } else {
+                    resetSolution();
+                }
             }
         }
     }
@@ -252,6 +315,7 @@ public class Matrix {
             j = 0;
             String currentWord = this.Words[i];
             char currentChar = currentWord.charAt(j);
+            this.found = false;
             resetSolution();
 
             for (nRow = 0; nRow < this.nRow; nRow++) {
@@ -267,6 +331,15 @@ public class Matrix {
                         checkDownLeft(i, nRow, nCol);
                     }
                 }
+            }
+
+            if (!this.found) {
+                System.out.println();
+                System.out.println(currentWord + " not found!");
+            } else {
+                System.out.println();
+                System.out.println("Solution for " + currentWord);
+                displaySolutions();
             }
         }
     }
