@@ -11,6 +11,7 @@ public class PuzzleSolver {
     final int maxCol = 50;
     final int maxWord = 50;
     public int comparison = 0;
+    public int totalComparison = 0;
     public int nRow, nCol, nWord;
     public double time = 0;
     public boolean found = false;
@@ -83,12 +84,14 @@ public class PuzzleSolver {
             }
             System.out.println();
         }
+        System.out.print(this.comparison + " letter comparisons\n");
     }
 
     public void displayStat() {
         System.out.println("\nStatistics");
-        System.out.println("Total letter comparison: " + this.comparison);
+        System.out.println("Total letter comparisons: " + this.totalComparison);
         System.out.println("Brute force time: " + this.time / 1000000 + " ms\n");
+        System.out.println("Thank you!");
     }
 
     public void checkUp(int num, int row, int col) {
@@ -370,6 +373,9 @@ public class PuzzleSolver {
                 System.out.println("Solution for " + currentWord);
                 displaySolutions();
             }
+
+            this.totalComparison += this.comparison;
+            this.comparison = 0;
         }
     }
 }
